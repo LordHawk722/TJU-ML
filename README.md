@@ -94,10 +94,50 @@
 - **FP(假阳性)**：错误预测为正类的样本数。
 - **FN(假阴性)**：错误预测为负类的样本数。
 - **查准率(Precision)**：预测为正类的样本中实际为正类的比例，计算公式为：
-```math
+
+$$
 Precision = \frac{TP}{TP + FP} 
-```
+$$
+
 - **查全率(Recall)**：实际为正类的样本中被正确预测为正类的比例，计算公式为：
-```math
+
+$$
 Recall = \frac{TP}{TP + FN}
-```
+$$
+
+> 查准率和查全率通常相互矛盾。
+- P-R曲线：以查全率为横轴，查准率为纵轴的曲线图，用于评估分类模型在不同阈值下的性能。
+- Break-even Point：P-R曲线上查准率和查全率相等的点，表示模型在该阈值下的性能平衡。
+##### (3)F1值
+- **F1值(F1 Score)**：查准率和查全率的调和平均数，计算公式为：
+
+$$
+F1 = 2 \cdot \frac{Precision \cdot Recall}{Precision + Recall} = \frac{2 \cdot TP}{m + TP - TN}
+$$
+
+- **Fβ值(Fβ Score)**：查准率和查全率的加权调和平均数，计算公式为：
+
+$$
+F_\beta = (1 + \beta^2) \cdot \frac{Precision \cdot Recall}{\beta^2 \cdot Precision + Recall}
+$$
+
+> 其中，β是一个非负参数，用于调整查准率和查全率的权重。当β > 1时，Fβ值更重视查全率；当β < 1时，Fβ值更重视查准率；当β = 1时，Fβ值等于F1值。
+##### (4)ROC(受试者工作特征)曲线
+- **ROC曲线(Receiver Operating Characteristic Curve)**：以假阳性率(FP率)为横轴，真阳性率(TP率，即召回率)为纵轴的曲线图，用于评估分类模型在不同阈值下的性能。
+> 假正例率：
+> 
+> $$
+> FPR = \frac{FP}{FP + TN}
+> $$
+##### (5)AUC(Area Under the ROC Curve)：ROC曲线下的面积，衡量样本预测的排序能力，值越大表示模型性能越好。
+> 若一个模型的ROC曲线完全"包住"另一个模型的ROC曲线，则性能更好；若两条ROC曲线相交，则比较AUC值。
+##### (6)代价敏感错误率(Cost-sensitive Error Rate)
+- 在某些应用中，不同类型的错误具有不同的代价。
+- **代价矩阵**： $cost_{ij}$ 表示将第i类样本预测为第j类的代价。
+- **代价敏感错误率**：最小化总代价
+
+$$
+Cost\text{-}Sensitive\ Error\ Rate = \frac{\sum_{i=1}^{k} \sum_{j=1}^{k} cost_{ij} \cdot N_{ij}}{N}
+$$
+> 其中， $N_{ij}$ 表示将第i类样本预测为第j类的样本数，N表示总样本数。 
+### 五、偏差与方差
